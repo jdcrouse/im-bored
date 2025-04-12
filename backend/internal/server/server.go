@@ -11,6 +11,7 @@ import (
 
 type Settings struct {
 	Endpoint string
+	Port     string
 }
 
 type Server struct {
@@ -113,5 +114,8 @@ func (s *Server) Run(settings Settings) error {
 	http.HandleFunc("/register", s.handleRegisterUser)
 	http.HandleFunc("/users", s.handleListUsers)
 	http.HandleFunc("/broadcast-boredom", s.handleNotifyAllUsers)
-	return http.ListenAndServe(settings.Endpoint, nil)
+
+	address := fmt.Sprintf("%s:%s", settings.Endpoint, settings.Port)
+	log.Printf("starting server on %s", address)
+	return http.ListenAndServe(address, nil)
 }
