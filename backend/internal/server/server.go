@@ -27,7 +27,11 @@ type Response struct {
 	Message string `json:"message"`
 }
 
-func (s *Server) registerHandler(w http.ResponseWriter, r *http.Request) {
+type UsersResponse struct {
+	Users []string `json:"users"`
+}
+
+func (s *Server) RegisterUserHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
@@ -75,9 +79,28 @@ func (s *Server) notifyHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(response)
 }
 
+func (s *Server) listUsersHandler(w http.ResponseWriter, r *http.Request) {
+	log.Printf("Received request to /users")
+	if r.Method != http.MethodGet {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	s.mu.RLock()
+	users := make([]string, 0, len(s.registeredUsers))
+	for id := range s.registeredUsers {
+		users = append(users, id)
+	}
+	s.mu.RUnlock()
+
+	log.Printf("Returning %d users", len(users))
+	response := UsersResponse{Users: users}
+	json.NewEncoder(w).Encode(response)
+}
+
 func (s *Server) Run(settings Settings) error {
-	http.HandleFunc("/register", s.registerHandler)
+	http.HandleFunc("/register", s.RegisterUserHandler)
 	http.HandleFunc("/notify", s.notifyHandler)
-	log.Printf("Server starting on %s...", settings.Endpoint)
+	http.HandleFunc("/users", s.listUsersHandler)
 	return http.ListenAndServe(settings.Endpoint, nil)
 }
