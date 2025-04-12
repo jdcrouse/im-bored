@@ -13,7 +13,7 @@ const (
 )
 
 func main() {
-	godotenv.Load()
+	godotenv.Load() // environment variables will override values from .env
 
 	port, ok := os.LookupEnv("PORT")
 	if !ok {
