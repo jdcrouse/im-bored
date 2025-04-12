@@ -7,14 +7,13 @@ export default function Index() {
 
   const handleNotify = async () => {
     try {
-      const response = await fetch("http://localhost:8080/notify-all", {
+      const response = await fetch("http://localhost:8080/broadcast-boredom", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          notifier_id: "admin",
-          message: "im bored",
+          notifier_id: "admin"
         }),
       });
       const data = await response.json();

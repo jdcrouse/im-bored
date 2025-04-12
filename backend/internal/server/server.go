@@ -34,7 +34,6 @@ type UsersResponse struct {
 
 type NotifyAllRequest struct {
 	NotifierID string `json:"notifier_id"`
-	Message    string `json:"message"`
 }
 
 func (s *Server) handleRegisterUser(w http.ResponseWriter, r *http.Request) {
@@ -106,13 +105,13 @@ func (s *Server) handleNotifyAllUsers(w http.ResponseWriter, r *http.Request) {
 		user.Notify()
 	}
 
-	response := Response{Message: fmt.Sprintf("Notifications sent to all users by %s: %s", req.NotifierID, req.Message)}
+	response := Response{Message: fmt.Sprintf("%s broadcasted boredom", req.NotifierID)}
 	json.NewEncoder(w).Encode(response)
 }
 
 func (s *Server) Run(settings Settings) error {
 	http.HandleFunc("/register", s.handleRegisterUser)
 	http.HandleFunc("/users", s.handleListUsers)
-	http.HandleFunc("/notify-all", s.handleNotifyAllUsers)
+	http.HandleFunc("/broadcast-boredom", s.handleNotifyAllUsers)
 	return http.ListenAndServe(settings.Endpoint, nil)
 }
