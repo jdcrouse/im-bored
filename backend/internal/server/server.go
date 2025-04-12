@@ -31,7 +31,7 @@ type UsersResponse struct {
 	Users []string `json:"users"`
 }
 
-func (s *Server) RegisterUserHandler(w http.ResponseWriter, r *http.Request) {
+func (s *Server) handleRegisterUser(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
@@ -53,7 +53,7 @@ func (s *Server) RegisterUserHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(response)
 }
 
-func (s *Server) notifyHandler(w http.ResponseWriter, r *http.Request) {
+func (s *Server) handleNotifyUser(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
@@ -79,7 +79,7 @@ func (s *Server) notifyHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(response)
 }
 
-func (s *Server) listUsersHandler(w http.ResponseWriter, r *http.Request) {
+func (s *Server) handleListUsers(w http.ResponseWriter, r *http.Request) {
 	log.Printf("Received request to /users")
 	if r.Method != http.MethodGet {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
@@ -99,8 +99,8 @@ func (s *Server) listUsersHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) Run(settings Settings) error {
-	http.HandleFunc("/register", s.RegisterUserHandler)
-	http.HandleFunc("/notify", s.notifyHandler)
-	http.HandleFunc("/users", s.listUsersHandler)
+	http.HandleFunc("/register", s.handleRegisterUser)
+	http.HandleFunc("/notify", s.handleNotifyUser)
+	http.HandleFunc("/users", s.handleListUsers)
 	return http.ListenAndServe(settings.Endpoint, nil)
 }
