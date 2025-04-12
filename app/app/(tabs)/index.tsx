@@ -1,9 +1,11 @@
-import { Button, View, Text, TouchableOpacity } from "react-native";
-import { useState } from "react";
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { useState } from 'react';
 import Toast from 'react-native-toast-message';
+import { useAuth } from '../../contexts/AuthContext';
 
 export default function Index() {
   const [response, setResponse] = useState<string>("");
+  const { signOut } = useAuth();
 
   const handleNotify = async () => {
     try {
@@ -27,29 +29,40 @@ export default function Index() {
       setResponse("Error: " + error.message);
     } 
   };
- 
+
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
+    <View style={styles.container}>
       <TouchableOpacity
         onPress={handleNotify}
-        style={{
-          backgroundColor: '#007AFF',
-          paddingHorizontal: 20,
-          paddingVertical: 10,
-          borderRadius: 10,
-        }}
+        style={styles.button}
       >
-        <Text style={{ color: 'white', fontSize: 16 }}>im bored</Text>
+        <Text style={styles.buttonText}>im bored</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={signOut}
+        style={[styles.button, { marginTop: 20 }]}
+      >
+        <Text style={styles.buttonText}>Sign Out</Text>
       </TouchableOpacity>
       <Toast />
     </View>
   );
 }
 
-
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  button: {
+    backgroundColor: '#007AFF',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 10,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+  },
+}); 
