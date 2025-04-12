@@ -2,6 +2,7 @@ package server
 
 import (
 	"encoding/json"
+	"fmt"
 	"imbored/internal/user"
 	"log"
 	"net/http"
@@ -29,6 +30,11 @@ type Response struct {
 
 type UsersResponse struct {
 	Users []string `json:"users"`
+}
+
+type NotifyAllRequest struct {
+	NotifierID string `json:"notifier_id"`
+	Message    string `json:"message"`
 }
 
 func (s *Server) handleRegisterUser(w http.ResponseWriter, r *http.Request) {
@@ -78,6 +84,17 @@ func (s *Server) handleNotifyAllUsers(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	var req NotifyAllRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "Invalid request body", http.StatusBadRequest)
+		return
+	}
+
+	if req.NotifierID == "" {
+		http.Error(w, "Notifier ID is required", http.StatusBadRequest)
+		return
+	}
+
 	s.mu.RLock()
 	users := make([]*user.User, 0, len(s.registeredUsers))
 	for _, user := range s.registeredUsers {
@@ -89,7 +106,7 @@ func (s *Server) handleNotifyAllUsers(w http.ResponseWriter, r *http.Request) {
 		user.Notify()
 	}
 
-	response := Response{Message: "Notifications sent to all users"}
+	response := Response{Message: fmt.Sprintf("Notifications sent to all users by %s: %s", req.NotifierID, req.Message)}
 	json.NewEncoder(w).Encode(response)
 }
 
