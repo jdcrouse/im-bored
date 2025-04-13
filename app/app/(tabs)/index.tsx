@@ -5,7 +5,7 @@ import { useAuth } from '../../contexts/AuthContext';
 
 export default function Index() {
   const [response, setResponse] = useState<string>("");
-  const { signOut } = useAuth();
+  const { signOut, session } = useAuth();
 
   const handleNotify = async () => {
     try {
@@ -13,10 +13,8 @@ export default function Index() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${session?.access_token}`,
         },
-        body: JSON.stringify({
-          notifier_id: "admin"
-        }),
       });
       const data = await response.json();
       setResponse(JSON.stringify(data));
@@ -27,6 +25,11 @@ export default function Index() {
       });
     } catch (error: any) {
       setResponse("Error: " + error.message);
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: error.message,
+      });
     } 
   };
 
