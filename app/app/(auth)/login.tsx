@@ -5,39 +5,101 @@ import { useAuth } from '../../contexts/AuthContext';
 import Toast from 'react-native-toast-message';
 
 export default function Login() {
-  const [email, setEmail] = useState('foobar@foobar.com');
-  const [password, setPassword] = useState('foobar');
-  const [username, setUsername] = useState('foobar');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
   const [isRegistering, setIsRegistering] = useState(false);
   const { signIn, signUp, signOut, session, loading } = useAuth();
 
-  // Set default test values when switching to registration mode
-  const handleSwitchToRegister = () => {
-    setIsRegistering(true);
-    setUsername('foobar');
-    setEmail('foobar@foobar.com');
-    setPassword('foobar');
+  const validateRegistration = () => {
+    if (!username.trim()) {
+      Toast.show({
+        type: 'error',
+        text1: 'Registration Error',
+        text2: 'Username is required',
+      });
+      return false;
+    }
+    if (!email.trim()) {
+      Toast.show({
+        type: 'error',
+        text1: 'Registration Error',
+        text2: 'Email is required',
+      });
+      return false;
+    }
+    if (!password.trim()) {
+      Toast.show({
+        type: 'error',
+        text1: 'Registration Error',
+        text2: 'Password is required',
+      });
+      return false;
+    }
+    return true;
   };
 
-  const handleSubmit = async () => {
+  const validateLogin = () => {
+    if (!email.trim()) {
+      Toast.show({
+        type: 'error',
+        text1: 'Login Error',
+        text2: 'Email is required',
+      });
+      return false;
+    }
+    if (!password.trim()) {
+      Toast.show({
+        type: 'error',
+        text1: 'Login Error',
+        text2: 'Password is required',
+      });
+      return false;
+    }
+    return true;
+  };
+
+  const handleRegister = async () => {
+    if (!validateRegistration()) return;
+    
     try {
-      if (isRegistering) {
-        await signUp(email, password, username);
-        Toast.show({
-          type: 'success',
-          text1: 'Registration successful',
-          text2: 'Please check your email to confirm your account',
-        });
-      } else {
-        await signIn(email, password);
-        router.replace('/(tabs)');
-      }
+      await signUp(email, password, username);
+      Toast.show({
+        type: 'success',
+        text1: 'Registration successful',
+        text2: 'Please check your email to confirm your account',
+      });
+      // Navigate directly to tabs after registration
+      router.replace('/(tabs)');
     } catch (error: any) {
       Toast.show({
         type: 'error',
-        text1: isRegistering ? 'Registration Error' : 'Login Error',
-        text2: error.message || 'Failed to authenticate',
+        text1: 'Registration Error',
+        text2: error.message || 'Failed to register',
       });
+    }
+  };
+
+  const handleLogin = async () => {
+    if (!validateLogin()) return;
+    
+    try {
+      await signIn(email, password);
+      router.replace('/(tabs)');
+    } catch (error: any) {
+      Toast.show({
+        type: 'error',
+        text1: 'Login Error',
+        text2: error.message || 'Failed to login',
+      });
+    }
+  };
+
+  const handleSubmit = async () => {
+    if (isRegistering) {
+      await handleRegister();
+    } else {
+      await handleLogin();
     }
   };
 
@@ -65,7 +127,7 @@ export default function Login() {
     );
   }
 
-  if (session) {
+  if (session && !isRegistering) {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>Welcome, {session.user.email}</Text>
@@ -82,7 +144,7 @@ export default function Login() {
       {isRegistering && (
         <TextInput
           style={styles.input}
-          placeholder="Username"
+          placeholder="Username *"
           value={username}
           onChangeText={setUsername}
           autoCapitalize="none"
@@ -91,7 +153,7 @@ export default function Login() {
       )}
       <TextInput
         style={styles.input}
-        placeholder="Email"
+        placeholder="Email *"
         value={email}
         onChangeText={setEmail}
         autoCapitalize="none"
@@ -99,7 +161,7 @@ export default function Login() {
       />
       <TextInput
         style={styles.input}
-        placeholder="Password"
+        placeholder="Password *"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
@@ -109,7 +171,7 @@ export default function Login() {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.switchButton}
-        onPress={isRegistering ? () => setIsRegistering(false) : handleSwitchToRegister}
+        onPress={() => setIsRegistering(!isRegistering)}
       >
         <Text style={styles.switchButtonText}>
           {isRegistering ? 'Already have an account? Sign In' : "Don't have an account? Register"}
