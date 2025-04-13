@@ -5,18 +5,45 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { router } from "expo-router";
 import { useAuth } from "../../contexts/AuthContext";
 import Toast from "react-native-toast-message";
 import { COLORS } from "../../constants/colors";
+import * as Font from "expo-font";
 
 export default function LoginScreen() {
+  const [fontsLoaded, setFontsLoaded] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { signIn, signUp, signOut, session, loading } = useAuth();
   const [isRegistering, setIsRegistering] = useState(false);
   const [username, setUsername] = useState("");
+
+  useEffect(() => {
+    async function loadFonts() {
+      try {
+        await Font.loadAsync({
+          Righteous: require("../../assets/fonts/Righteous-Regular.ttf"),
+        });
+        setFontsLoaded(true);
+      } catch (error) {
+        console.error("Error loading fonts:", error);
+        // Continue without custom fonts
+        setFontsLoaded(true);
+      }
+    }
+    loadFonts();
+  }, []);
+
+  if (!fontsLoaded) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.title}>Loading...</Text>
+      </View>
+    );
+  }
+
   const validateRegistration = () => {
     if (!username.trim()) {
       Toast.show({
@@ -121,7 +148,7 @@ export default function LoginScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>
+      <Text style={[styles.title, { fontFamily: "Righteous", fontSize: 72 }]}>
         {isRegistering ? "Create Account" : "i'm bored"}
       </Text>
 
@@ -184,11 +211,12 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   title: {
-    fontSize: 24,
-    fontWeight: "bold",
     marginBottom: 20,
     textAlign: "center",
     color: COLORS.text,
+    textShadowColor: "rgba(0, 0, 0, 0.3)",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
   },
   input: {
     height: 50,
