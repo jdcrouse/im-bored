@@ -11,6 +11,25 @@
     "plugins": [
       "expo-router"
     ],
-    "scheme": "imbored"
+    "scheme": "imbored",
+    "ios": {
+      "bundleIdentifier": "com.jason.imbored",
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSAppTransportSecurity": {
+          "NSAllowsArbitraryLoads": false,
+          "NSExceptionDomains": {
+            "supabase.co": {
+              "NSExceptionAllowsInsecureHTTPLoads": false,
+              "NSIncludesSubdomains": true
+            }
+          }
+        }
+      }
+    },
+    "android": {
+      "package": "com.jason.im_bored"
+    },
+    "newArchEnabled": true
   }
 }
