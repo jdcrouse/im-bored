@@ -1,0 +1,115 @@
+import { StyleSheet } from 'react-native';
+import { COLORS } from './colors';
+
+export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: COLORS.background,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: -52,
+  },
+  button: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: COLORS.button,
+    width: 160,
+    height: 160,
+    borderRadius: 80,
+    padding: 0,
+  },
+  buttonText: {
+    color: COLORS.text,
+    fontSize: 20,
+    fontWeight: '600',
+    textAlign: 'center',
+    lineHeight: 20,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: COLORS.modalOverlay,
+  },
+  menuContainer: {
+    position: 'absolute',
+    top: 100,
+    right: 20,
+    backgroundColor: COLORS.modalBackground,
+    borderRadius: 12,
+    padding: 8,
+    minWidth: 200,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  menuItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+  },
+  menuItemText: {
+    marginLeft: 10,
+    fontSize: 16,
+    color: COLORS.text,
+    fontWeight: '500',
+  },
+  logoutText: {
+    color: COLORS.button,
+  },
+  settingsContainer: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: [{ translateX: -150 }, { translateY: -150 }],
+    backgroundColor: COLORS.modalBackground,
+    borderRadius: 12,
+    padding: 20,
+    width: 300,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  settingsHeader: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingBottom: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.border,
+    marginBottom: 20,
+  },
+  settingsTitle: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: COLORS.text,
+  },
+  settingsItem: {
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+  },
+  settingsLabel: {
+    fontSize: 16,
+    color: COLORS.textSecondary,
+    marginBottom: 8,
+  },
+  settingsValue: {
+    fontSize: 18,
+    color: COLORS.text,
+  },
+}); 

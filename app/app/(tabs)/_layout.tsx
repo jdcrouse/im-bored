@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Stack } from 'expo-router';
-import { useAuth } from '../../contexts/AuthContext';
 import { FontAwesome } from '@expo/vector-icons';
-import { TouchableOpacity, View, Text, StyleSheet, Modal } from 'react-native';
+import { useState } from 'react';
+import { Modal, TouchableOpacity, View, Text, StyleSheet } from 'react-native';
+import { useAuth } from '../../contexts/AuthContext';
+import { COLORS } from '../../constants/colors';
 
-export default function Layout() {
+export default function TabLayout() {
   const { session, signOut } = useAuth();
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [isSettingsVisible, setIsSettingsVisible] = useState(false);
@@ -14,8 +16,8 @@ export default function Layout() {
   };
 
   const handleLogOut = () => {
-    setIsMenuVisible(false);
     signOut();
+    setIsMenuVisible(false);
   };
 
   const handleSettingsPress = () => {
@@ -32,11 +34,12 @@ export default function Layout() {
       <Stack
         screenOptions={{
           headerStyle: {
-            backgroundColor: '#fff',
+            backgroundColor: COLORS.background,
           },
           headerTitleStyle: {
             fontSize: 0,
           },
+          headerTintColor: COLORS.text,
         }}
       >
         <Stack.Screen
@@ -49,14 +52,9 @@ export default function Layout() {
             headerRight: () => (
               <TouchableOpacity
                 onPress={handleGearPress}
-                style={{ 
-                  marginRight: 20,
-                  padding: 10,
-                  margin: -10,
-                }}
                 hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
               >
-                <FontAwesome name="cog" size={24} color="#000" />
+                <FontAwesome name="cog" size={24} color={COLORS.icon} />
               </TouchableOpacity>
             ),
           }}
@@ -79,14 +77,14 @@ export default function Layout() {
               style={styles.menuItem}
               onPress={handleSettingsPress}
             >
-              <FontAwesome name="user" size={20} color="#000" />
+              <FontAwesome name="user" size={20} color={COLORS.icon} />
               <Text style={styles.menuItemText}>Account Settings</Text>
             </TouchableOpacity>
             <TouchableOpacity 
               style={styles.menuItem}
               onPress={handleLogOut}
             >
-              <FontAwesome name="sign-out" size={20} color="#ff4444" />
+              <FontAwesome name="sign-out" size={20} color={COLORS.button} />
               <Text style={[styles.menuItemText, styles.logoutText]}>Log Out</Text>
             </TouchableOpacity>
           </View>
@@ -126,13 +124,13 @@ export default function Layout() {
 const styles = StyleSheet.create({
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: COLORS.modalOverlay,
   },
   menuContainer: {
     position: 'absolute',
     top: 100,
     right: 20,
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.modalBackground,
     borderRadius: 12,
     padding: 8,
     minWidth: 200,
@@ -154,18 +152,18 @@ const styles = StyleSheet.create({
   menuItemText: {
     marginLeft: 10,
     fontSize: 16,
-    color: '#000',
+    color: COLORS.text,
     fontWeight: '500',
   },
   logoutText: {
-    color: '#ff4444',
+    color: COLORS.button,
   },
   settingsContainer: {
     position: 'absolute',
     top: '50%',
     left: '50%',
     transform: [{ translateX: -150 }, { translateY: -150 }],
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.modalBackground,
     borderRadius: 12,
     padding: 20,
     width: 300,
@@ -184,19 +182,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingBottom: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: COLORS.border,
     marginBottom: 20,
-    position: 'relative',
   },
   settingsTitle: {
     fontSize: 20,
     fontWeight: '600',
-    color: '#000',
-  },
-  closeButton: {
-    position: 'absolute',
-    right: 0,
-    padding: 8,
+    color: COLORS.text,
   },
   settingsItem: {
     paddingVertical: 16,
@@ -204,11 +196,11 @@ const styles = StyleSheet.create({
   },
   settingsLabel: {
     fontSize: 16,
-    color: '#666',
+    color: COLORS.textSecondary,
     marginBottom: 8,
   },
   settingsValue: {
     fontSize: 18,
-    color: '#000',
+    color: COLORS.text,
   },
 }); 
