@@ -10,6 +10,6 @@ export default function Home() {
           <Text style={styles.buttonText}>i'm bored</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </View >
   );
 } 
