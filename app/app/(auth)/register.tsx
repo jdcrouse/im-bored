@@ -19,14 +19,14 @@ export default function Register() {
       Toast.show({
         type: 'success',
         text1: 'Success',
-        text2: 'Please check your email to confirm your account',
+        text2: 'Account created successfully!',
       });
-      router.replace('/');
+      router.replace('/(tabs)');
     } catch (error: any) {
       Toast.show({
         type: 'error',
         text1: 'Error',
-        text2: error.message,
+        text2: error.message || 'Failed to create account',
       });
     } finally {
       setLoading(false);

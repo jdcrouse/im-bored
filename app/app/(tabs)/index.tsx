@@ -1,11 +1,18 @@
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { router } from 'expo-router';
 import Toast from 'react-native-toast-message';
 import { useAuth } from '../../contexts/AuthContext';
 
 export default function Index() {
   const [response, setResponse] = useState<string>("");
   const { signOut, session } = useAuth();
+
+  useEffect(() => {
+    if (!session) {
+      router.replace('/(auth)/login');
+    }
+  }, [session]);
 
   const handleNotify = async () => {
     try {
@@ -33,8 +40,13 @@ export default function Index() {
     } 
   };
 
+  if (!session) {
+    return null;
+  }
+
   return (
     <View style={styles.container}>
+      <Text style={styles.welcomeText}>Welcome, {session.user.email}</Text>
       <TouchableOpacity
         onPress={handleNotify}
         style={styles.button}
@@ -57,6 +69,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  welcomeText: {
+    fontSize: 18,
+    marginBottom: 20,
   },
   button: {
     backgroundColor: '#007AFF',

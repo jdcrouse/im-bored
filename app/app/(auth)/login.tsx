@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { Link, router } from 'expo-router';
 import { useAuth } from '../../contexts/AuthContext';
@@ -8,18 +8,37 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const { signIn } = useAuth();
+  const { signIn, signOut, session } = useAuth();
 
   const handleLogin = async () => {
     try {
       setLoading(true);
       await signIn(email, password);
-      router.replace('/');
+      router.replace('/(tabs)');
     } catch (error: any) {
       Toast.show({
         type: 'error',
-        text1: 'Error',
-        text2: error.message,
+        text1: 'Login Error',
+        text2: error.message || 'Failed to sign in',
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSignOut = async () => {
+    try {
+      setLoading(true);
+      await signOut();
+      Toast.show({
+        type: 'success',
+        text1: 'Signed out successfully',
+      });
+    } catch (error: any) {
+      Toast.show({
+        type: 'error',
+        text1: 'Sign Out Error',
+        text2: error.message || 'Failed to sign out',
       });
     } finally {
       setLoading(false);
@@ -29,33 +48,48 @@ export default function Login() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Welcome Back</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        autoCapitalize="none"
-        keyboardType="email-address"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-      <TouchableOpacity
-        style={styles.button}
-        onPress={handleLogin}
-        disabled={loading}
-      >
-        <Text style={styles.buttonText}>{loading ? 'Loading...' : 'Sign In'}</Text>
-      </TouchableOpacity>
-      <Link href="/(auth)/register" asChild>
-        <TouchableOpacity>
-          <Text style={styles.linkText}>Don't have an account? Sign up</Text>
-        </TouchableOpacity>
-      </Link>
+      {session ? (
+        <>
+          <Text style={styles.subtitle}>You are signed in as {session.user.email}</Text>
+          <TouchableOpacity
+            style={[styles.button, { backgroundColor: '#FF3B30' }]}
+            onPress={handleSignOut}
+            disabled={loading}
+          >
+            <Text style={styles.buttonText}>Sign Out</Text>
+          </TouchableOpacity>
+        </>
+      ) : (
+        <>
+          <TextInput
+            style={styles.input}
+            placeholder="Email"
+            value={email}
+            onChangeText={setEmail}
+            autoCapitalize="none"
+            keyboardType="email-address"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Password"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+          />
+          <TouchableOpacity
+            style={styles.button}
+            onPress={handleLogin}
+            disabled={loading}
+          >
+            <Text style={styles.buttonText}>{loading ? 'Loading...' : 'Sign In'}</Text>
+          </TouchableOpacity>
+          <Link href="/(auth)/register" asChild>
+            <TouchableOpacity>
+              <Text style={styles.linkText}>Don't have an account? Sign up</Text>
+            </TouchableOpacity>
+          </Link>
+        </>
+      )}
       <Toast />
     </View>
   );
@@ -100,5 +134,11 @@ const styles = StyleSheet.create({
     color: '#007AFF',
     textAlign: 'center',
     marginTop: 20,
+  },
+  subtitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    textAlign: 'center',
   },
 }); 
