@@ -1,6 +1,6 @@
-import { Slot, useRouter, useSegments } from 'expo-router';
-import { useEffect } from 'react';
-import { AuthProvider, useAuth } from '../contexts/AuthContext';
+import { Slot, useRouter, useSegments } from "expo-router";
+import { useEffect } from "react";
+import { AuthProvider, useAuth } from "../contexts/AuthContext";
 
 function RootLayoutNav() {
   const { session, loading } = useAuth();
@@ -10,12 +10,12 @@ function RootLayoutNav() {
   useEffect(() => {
     if (loading) return;
 
-    const inAuthGroup = segments[0] === '(auth)';
+    const inAuthGroup = segments[0] === "(auth)";
 
     if (!session && !inAuthGroup) {
-      router.replace('/(auth)/login');
+      router.replace("/(auth)/login");
     } else if (session && inAuthGroup) {
-      router.replace('/(tabs)');
+      router.replace("/(tabs)");
     }
   }, [session, loading, segments]);
 

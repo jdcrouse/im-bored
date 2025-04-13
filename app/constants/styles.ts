@@ -1,23 +1,23 @@
-import { StyleSheet } from 'react-native';
-import { COLORS } from './colors';
+import { StyleSheet } from "react-native";
+import { COLORS } from "./colors";
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.background,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   buttonContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: -52,
   },
   button: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     backgroundColor: COLORS.button,
     width: 160,
     height: 160,
@@ -27,8 +27,8 @@ export const styles = StyleSheet.create({
   buttonText: {
     color: COLORS.text,
     fontSize: 20,
-    fontWeight: '600',
-    textAlign: 'center',
+    fontWeight: "600",
+    textAlign: "center",
     lineHeight: 20,
   },
   modalOverlay: {
@@ -36,14 +36,14 @@ export const styles = StyleSheet.create({
     backgroundColor: COLORS.modalOverlay,
   },
   menuContainer: {
-    position: 'absolute',
+    position: "absolute",
     top: 100,
     right: 20,
     backgroundColor: COLORS.modalBackground,
     borderRadius: 12,
     padding: 8,
     minWidth: 200,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -53,8 +53,8 @@ export const styles = StyleSheet.create({
     elevation: 5,
   },
   menuItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     paddingVertical: 12,
     paddingHorizontal: 16,
   },
@@ -62,21 +62,21 @@ export const styles = StyleSheet.create({
     marginLeft: 10,
     fontSize: 16,
     color: COLORS.text,
-    fontWeight: '500',
+    fontWeight: "500",
   },
   logoutText: {
     color: COLORS.button,
   },
   settingsContainer: {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
+    position: "absolute",
+    top: "50%",
+    left: "50%",
     transform: [{ translateX: -150 }, { translateY: -150 }],
     backgroundColor: COLORS.modalBackground,
     borderRadius: 12,
     padding: 20,
     width: 300,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -86,9 +86,9 @@ export const styles = StyleSheet.create({
     elevation: 5,
   },
   settingsHeader: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     paddingBottom: 20,
     borderBottomWidth: 1,
     borderBottomColor: COLORS.border,
@@ -96,7 +96,7 @@ export const styles = StyleSheet.create({
   },
   settingsTitle: {
     fontSize: 20,
-    fontWeight: '600',
+    fontWeight: "600",
     color: COLORS.text,
   },
   settingsItem: {
@@ -112,4 +112,4 @@ export const styles = StyleSheet.create({
     fontSize: 18,
     color: COLORS.text,
   },
-}); 
+});

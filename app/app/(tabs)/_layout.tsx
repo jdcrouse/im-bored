@@ -1,10 +1,10 @@
-import React from 'react';
-import { Stack } from 'expo-router';
-import { FontAwesome } from '@expo/vector-icons';
-import { useState } from 'react';
-import { Modal, TouchableOpacity, View, Text, StyleSheet } from 'react-native';
-import { useAuth } from '../../contexts/AuthContext';
-import { COLORS } from '../../constants/colors';
+import React from "react";
+import { Stack } from "expo-router";
+import { FontAwesome } from "@expo/vector-icons";
+import { useState } from "react";
+import { Modal, TouchableOpacity, View, Text, StyleSheet } from "react-native";
+import { useAuth } from "../../contexts/AuthContext";
+import { COLORS } from "../../constants/colors";
 
 export default function TabLayout() {
   const { session, signOut } = useAuth();
@@ -45,9 +45,9 @@ export default function TabLayout() {
         <Stack.Screen
           name="index"
           options={{
-            title: '',
+            title: "",
             headerShown: true,
-            headerTitle: '',
+            headerTitle: "",
             headerShadowVisible: false,
             headerRight: () => (
               <TouchableOpacity
@@ -67,25 +67,24 @@ export default function TabLayout() {
         animationType="fade"
         onRequestClose={() => setIsMenuVisible(false)}
       >
-        <TouchableOpacity 
+        <TouchableOpacity
           style={styles.modalOverlay}
           activeOpacity={1}
           onPress={() => setIsMenuVisible(false)}
         >
           <View style={styles.menuContainer}>
-            <TouchableOpacity 
+            <TouchableOpacity
               style={styles.menuItem}
               onPress={handleSettingsPress}
             >
               <FontAwesome name="user" size={20} color={COLORS.icon} />
               <Text style={styles.menuItemText}>Account Settings</Text>
             </TouchableOpacity>
-            <TouchableOpacity 
-              style={styles.menuItem}
-              onPress={handleLogOut}
-            >
+            <TouchableOpacity style={styles.menuItem} onPress={handleLogOut}>
               <FontAwesome name="sign-out" size={20} color={COLORS.button} />
-              <Text style={[styles.menuItemText, styles.logoutText]}>Log Out</Text>
+              <Text style={[styles.menuItemText, styles.logoutText]}>
+                Log Out
+              </Text>
             </TouchableOpacity>
           </View>
         </TouchableOpacity>
@@ -97,7 +96,7 @@ export default function TabLayout() {
         animationType="fade"
         onRequestClose={() => setIsSettingsVisible(false)}
       >
-        <TouchableOpacity 
+        <TouchableOpacity
           style={styles.modalOverlay}
           activeOpacity={1}
           onPress={() => setIsSettingsVisible(false)}
@@ -112,7 +111,9 @@ export default function TabLayout() {
             </View>
             <View style={styles.settingsItem}>
               <Text style={styles.settingsLabel}>Username</Text>
-              <Text style={styles.settingsValue}>{session?.user?.user_metadata?.username}</Text>
+              <Text style={styles.settingsValue}>
+                {session?.user?.user_metadata?.username}
+              </Text>
             </View>
           </View>
         </TouchableOpacity>
@@ -127,14 +128,14 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.modalOverlay,
   },
   menuContainer: {
-    position: 'absolute',
+    position: "absolute",
     top: 100,
     right: 20,
     backgroundColor: COLORS.modalBackground,
     borderRadius: 12,
     padding: 8,
     minWidth: 200,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -144,8 +145,8 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   menuItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     paddingVertical: 12,
     paddingHorizontal: 16,
   },
@@ -153,21 +154,21 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontSize: 16,
     color: COLORS.text,
-    fontWeight: '500',
+    fontWeight: "500",
   },
   logoutText: {
     color: COLORS.button,
   },
   settingsContainer: {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
+    position: "absolute",
+    top: "50%",
+    left: "50%",
     transform: [{ translateX: -150 }, { translateY: -150 }],
     backgroundColor: COLORS.modalBackground,
     borderRadius: 12,
     padding: 20,
     width: 300,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -177,9 +178,9 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   settingsHeader: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     paddingBottom: 20,
     borderBottomWidth: 1,
     borderBottomColor: COLORS.border,
@@ -187,7 +188,7 @@ const styles = StyleSheet.create({
   },
   settingsTitle: {
     fontSize: 20,
-    fontWeight: '600',
+    fontWeight: "600",
     color: COLORS.text,
   },
   settingsItem: {
@@ -203,4 +204,4 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: COLORS.text,
   },
-}); 
+});

@@ -1,38 +1,44 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-import { useState } from 'react';
-import { router } from 'expo-router';
-import { useAuth } from '../../contexts/AuthContext';
-import Toast from 'react-native-toast-message';
-import { COLORS } from '../../constants/colors';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
+import { useState } from "react";
+import { router } from "expo-router";
+import { useAuth } from "../../contexts/AuthContext";
+import Toast from "react-native-toast-message";
+import { COLORS } from "../../constants/colors";
 
 export default function LoginScreen() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const { signIn, signUp, signOut, session, loading } = useAuth();
   const [isRegistering, setIsRegistering] = useState(false);
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState("");
   const validateRegistration = () => {
     if (!username.trim()) {
       Toast.show({
-        type: 'error',
-        text1: 'Registration Error',
-        text2: 'Username is required',
+        type: "error",
+        text1: "Registration Error",
+        text2: "Username is required",
       });
       return false;
     }
     if (!email.trim()) {
       Toast.show({
-        type: 'error',
-        text1: 'Registration Error',
-        text2: 'Email is required',
+        type: "error",
+        text1: "Registration Error",
+        text2: "Email is required",
       });
       return false;
     }
     if (!password.trim()) {
       Toast.show({
-        type: 'error',
-        text1: 'Registration Error',
-        text2: 'Password is required',
+        type: "error",
+        text1: "Registration Error",
+        text2: "Password is required",
       });
       return false;
     }
@@ -42,17 +48,17 @@ export default function LoginScreen() {
   const validateLogin = () => {
     if (!email.trim()) {
       Toast.show({
-        type: 'error',
-        text1: 'Login Error',
-        text2: 'Email is required',
+        type: "error",
+        text1: "Login Error",
+        text2: "Email is required",
       });
       return false;
     }
     if (!password.trim()) {
       Toast.show({
-        type: 'error',
-        text1: 'Login Error',
-        text2: 'Password is required',
+        type: "error",
+        text1: "Login Error",
+        text2: "Password is required",
       });
       return false;
     }
@@ -61,35 +67,35 @@ export default function LoginScreen() {
 
   const handleRegister = async () => {
     if (!validateRegistration()) return;
-    
+
     try {
       await signUp(email, password, username);
       Toast.show({
-        type: 'success',
-        text1: 'Registration successful',
-        text2: 'Please check your email to confirm your account',
+        type: "success",
+        text1: "Registration successful",
+        text2: "Please check your email to confirm your account",
       });
-      router.replace('/(tabs)');
+      router.replace("/(tabs)");
     } catch (error: any) {
       Toast.show({
-        type: 'error',
-        text1: 'Registration Error',
-        text2: error.message || 'Failed to register',
+        type: "error",
+        text1: "Registration Error",
+        text2: error.message || "Failed to register",
       });
     }
   };
 
   const handleLogin = async () => {
     if (!validateLogin()) return;
-    
+
     try {
       await signIn(email, password);
-      router.replace('/(tabs)');
+      router.replace("/(tabs)");
     } catch (error: any) {
       Toast.show({
-        type: 'error',
-        text1: 'Login Error',
-        text2: error.message || 'Failed to login',
+        type: "error",
+        text1: "Login Error",
+        text2: error.message || "Failed to login",
       });
     }
   };
@@ -115,8 +121,10 @@ export default function LoginScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{isRegistering ? 'Create Account' : "i'm bored"}</Text>
-      
+      <Text style={styles.title}>
+        {isRegistering ? "Create Account" : "i'm bored"}
+      </Text>
+
       {isRegistering && (
         <TextInput
           style={styles.input}
@@ -128,7 +136,7 @@ export default function LoginScreen() {
           autoCorrect={false}
         />
       )}
-      
+
       <TextInput
         style={styles.input}
         placeholder="Email"
@@ -138,7 +146,7 @@ export default function LoginScreen() {
         autoCapitalize="none"
         keyboardType="email-address"
       />
-      
+
       <TextInput
         style={styles.input}
         placeholder="Password"
@@ -147,17 +155,21 @@ export default function LoginScreen() {
         onChangeText={setPassword}
         secureTextEntry
       />
-      
+
       <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-        <Text style={styles.buttonText}>{isRegistering ? 'Register' : 'Sign In'}</Text>
+        <Text style={styles.buttonText}>
+          {isRegistering ? "Register" : "Sign In"}
+        </Text>
       </TouchableOpacity>
-      
+
       <TouchableOpacity
         style={styles.switchButton}
         onPress={() => setIsRegistering(!isRegistering)}
       >
         <Text style={styles.switchButtonText}>
-          {isRegistering ? 'Already have an account? Sign In' : "Don't have an account? Register"}
+          {isRegistering
+            ? "Already have an account? Sign In"
+            : "Don't have an account? Register"}
         </Text>
       </TouchableOpacity>
     </View>
@@ -168,14 +180,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.background,
-    justifyContent: 'center',
+    justifyContent: "center",
     padding: 20,
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 20,
-    textAlign: 'center',
+    textAlign: "center",
     color: COLORS.text,
   },
   input: {
@@ -190,26 +202,26 @@ const styles = StyleSheet.create({
     color: COLORS.text,
   },
   button: {
-    backgroundColor: '#4a90e2',
+    backgroundColor: "#4a90e2",
     padding: 15,
     borderRadius: 8,
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 10,
-    width: '60%',
-    alignSelf: 'center',
+    width: "60%",
+    alignSelf: "center",
   },
   buttonText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   switchButton: {
     padding: 10,
-    alignItems: 'center',
+    alignItems: "center",
   },
   switchButtonText: {
     color: COLORS.text,
     fontSize: 14,
-    textDecorationLine: 'underline',
+    textDecorationLine: "underline",
   },
-}); 
+});

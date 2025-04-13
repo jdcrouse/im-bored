@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
-import { Session } from '@supabase/supabase-js';
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { supabase } from "../lib/supabase";
+import { Session } from "@supabase/supabase-js";
 
 type AuthContextType = {
   session: Session | null;
@@ -19,13 +19,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session }, error }) => {
       if (error) {
-        console.error('AuthProvider: Error getting session:', error);
+        console.error("AuthProvider: Error getting session:", error);
       }
       setSession(session);
       setLoading(false);
     });
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, session) => {
       setSession(session);
       setLoading(false);
     });
@@ -41,7 +43,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         password,
       });
       if (error) {
-        console.error('AuthProvider: Sign in error:', error);
+        console.error("AuthProvider: Sign in error:", error);
         throw error;
       }
     } finally {
@@ -62,7 +64,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         },
       });
       if (error) {
-        console.error('AuthProvider: Sign up error:', error);
+        console.error("AuthProvider: Sign up error:", error);
         throw error;
       }
     } finally {
@@ -75,7 +77,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       const { error } = await supabase.auth.signOut();
       if (error) {
-        console.error('AuthProvider: Sign out error:', error);
+        console.error("AuthProvider: Sign out error:", error);
         throw error;
       }
     } finally {
@@ -97,7 +99,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
-}; 
+};

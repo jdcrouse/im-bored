@@ -1,6 +1,6 @@
-import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import { styles } from '../../constants/styles';
+import React from "react";
+import { View, Text, TouchableOpacity } from "react-native";
+import { styles } from "../../constants/styles";
 
 export default function Home() {
   return (
@@ -10,6 +10,6 @@ export default function Home() {
           <Text style={styles.buttonText}>i'm bored</Text>
         </TouchableOpacity>
       </View>
-    </View >
+    </View>
   );
-} 
+}

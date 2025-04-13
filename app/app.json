@@ -5,12 +5,8 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "plugins": [
-      "expo-router"
-    ],
+    "assetBundlePatterns": ["**/*"],
+    "plugins": ["expo-router"],
     "scheme": "imbored",
     "ios": {
       "bundleIdentifier": "com.jason.imbored",
