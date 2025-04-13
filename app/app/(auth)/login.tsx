@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { useState } from 'react';
 import { Link, router } from 'expo-router';
 import { useAuth } from '../../contexts/AuthContext';
 import Toast from 'react-native-toast-message';
+import { COLORS } from '../../constants/colors';
 
-export default function Login() {
+export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [username, setUsername] = useState('');
-  const [isRegistering, setIsRegistering] = useState(false);
   const { signIn, signUp, signOut, session, loading } = useAuth();
+  const [isRegistering, setIsRegistering] = useState(false);
+  const [username, setUsername] = useState('');
 
   const validateRegistration = () => {
     if (!username.trim()) {
@@ -69,7 +70,6 @@ export default function Login() {
         text1: 'Registration successful',
         text2: 'Please check your email to confirm your account',
       });
-      // Navigate directly to tabs after registration
       router.replace('/(tabs)');
     } catch (error: any) {
       Toast.show({
@@ -103,35 +103,19 @@ export default function Login() {
     }
   };
 
-  const handleSignOut = async () => {
-    try {
-      await signOut();
-      Toast.show({
-        type: 'success',
-        text1: 'Signed out successfully',
-      });
-    } catch (error: any) {
-      Toast.show({
-        type: 'error',
-        text1: 'Sign Out Error',
-        text2: error.message || 'Failed to sign out',
-      });
-    }
-  };
-
   if (loading) {
     return (
       <View style={styles.container}>
-        <ActivityIndicator size="large" color="#0000ff" />
+        <Text>Loading...</Text>
       </View>
     );
   }
 
-  if (session && !isRegistering) {
+  if (session) {
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>Welcome, {session.user.email}</Text>
-        <TouchableOpacity style={styles.button} onPress={handleSignOut}>
+        <Text>Welcome, {session.user.email}</Text>
+        <TouchableOpacity style={styles.button} onPress={signOut}>
           <Text style={styles.buttonText}>Sign Out</Text>
         </TouchableOpacity>
       </View>
@@ -140,35 +124,43 @@ export default function Login() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{isRegistering ? 'Create Account' : 'Welcome Back'}</Text>
+      <Text style={styles.title}>{isRegistering ? 'Create Account' : "i'm bored"}</Text>
+      
       {isRegistering && (
         <TextInput
           style={styles.input}
-          placeholder="Username *"
+          placeholder="Username"
+          placeholderTextColor={COLORS.textSecondary}
           value={username}
           onChangeText={setUsername}
           autoCapitalize="none"
           autoCorrect={false}
         />
       )}
+      
       <TextInput
         style={styles.input}
-        placeholder="Email *"
+        placeholder="Email"
+        placeholderTextColor={COLORS.textSecondary}
         value={email}
         onChangeText={setEmail}
         autoCapitalize="none"
         keyboardType="email-address"
       />
+      
       <TextInput
         style={styles.input}
-        placeholder="Password *"
+        placeholder="Password"
+        placeholderTextColor={COLORS.textSecondary}
         value={password}
         onChangeText={setPassword}
         secureTextEntry
       />
+      
       <TouchableOpacity style={styles.button} onPress={handleSubmit}>
         <Text style={styles.buttonText}>{isRegistering ? 'Register' : 'Sign In'}</Text>
       </TouchableOpacity>
+      
       <TouchableOpacity
         style={styles.switchButton}
         onPress={() => setIsRegistering(!isRegistering)}
@@ -184,31 +176,36 @@ export default function Login() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: COLORS.background,
     justifyContent: 'center',
     padding: 20,
-    backgroundColor: '#fff',
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
     textAlign: 'center',
+    color: COLORS.text,
   },
   input: {
     height: 50,
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: COLORS.border,
     borderRadius: 8,
     paddingHorizontal: 15,
     marginBottom: 15,
     fontSize: 16,
+    backgroundColor: COLORS.modalBackground,
+    color: COLORS.text,
   },
   button: {
-    backgroundColor: '#000',
+    backgroundColor: '#4a90e2',
     padding: 15,
     borderRadius: 8,
     alignItems: 'center',
     marginBottom: 10,
+    width: '60%',
+    alignSelf: 'center',
   },
   buttonText: {
     color: '#fff',
@@ -220,7 +217,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   switchButtonText: {
-    color: '#000',
+    color: COLORS.text,
     fontSize: 14,
+    textDecorationLine: 'underline',
   },
 }); 
