@@ -1,6 +1,6 @@
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { useState } from 'react';
-import { Link, router } from 'expo-router';
+import { router } from 'expo-router';
 import { useAuth } from '../../contexts/AuthContext';
 import Toast from 'react-native-toast-message';
 import { COLORS } from '../../constants/colors';
@@ -11,7 +11,6 @@ export default function LoginScreen() {
   const { signIn, signUp, signOut, session, loading } = useAuth();
   const [isRegistering, setIsRegistering] = useState(false);
   const [username, setUsername] = useState('');
-
   const validateRegistration = () => {
     if (!username.trim()) {
       Toast.show({
@@ -102,14 +101,6 @@ export default function LoginScreen() {
       await handleLogin();
     }
   };
-
-  if (loading) {
-    return (
-      <View style={styles.container}>
-        <Text>Loading...</Text>
-      </View>
-    );
-  }
 
   if (session) {
     return (
